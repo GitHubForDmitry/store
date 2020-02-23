@@ -1,8 +1,15 @@
 import React from 'react';
+import Card from "../components/Card";
+import {GridList} from "@material-ui/core";
 
 function Catalog(props) {
     return (
-        <div>das</div>
+        <GridList>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+        </GridList>
     );
 }
 

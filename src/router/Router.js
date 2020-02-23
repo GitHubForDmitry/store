@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Image from "../assets/images/background.jpg"
 import {Box} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
+import Admin from "../screen/Admin";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,12 +21,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: 0,
     zIndex: 1,
     height: "100vh",
-    overflow: "hidden",
     backgroundImage: `url(${Image})`,
     objectFit: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+      overflowX: "hidden",
   },
     subRoot: {
         flexGrow: 1,
@@ -33,7 +34,6 @@ const useStyles = makeStyles(theme => ({
         marginTop: 0,
         zIndex: 2,
         height: "100vh",
-        overflow: "hidden",
         backgroundColor: `rgba(255,255,255, 0.3)`,
         objectFit: "cover",
         backgroundPosition: "center",
@@ -87,6 +87,9 @@ function RouterComponent(props) {
                 <MenuItem onClick={handleClose}>
                   <Link to="/catalog">Каталог</Link>
                 </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                      <Link to="/admin">Admin</Link>
+                  </MenuItem>
               </Menu>
 
             </Paper>
@@ -102,6 +105,9 @@ function RouterComponent(props) {
               </Route>
               <Route path="/catalog">
                   <Catalog />
+              </Route>
+              <Route path="/admin">
+                  <Admin />
               </Route>
           </Switch>
       </Box>
