@@ -4,7 +4,11 @@ import AppContext from "../context/AppContext";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FireplaceIcon from "@material-ui/icons/Fireplace";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Card from "../components/Card";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,8 +17,13 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-around",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-    flexDirection: "column"
+    flexDirection: "column",
+    padding: 5
   },
+    block: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
   gridList: {
     flexWrap: "nowrap",
     transform: "translateZ(0)"
@@ -25,6 +34,17 @@ const useStyles = makeStyles(theme => ({
   titleBar: {
     background:
       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
+  },
+  button: {
+    margin: theme.spacing(1),
+    minWidth: 150,
+    maxWidth: 300
+  },
+  field: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: 200
+    }
   }
 }));
 
@@ -42,38 +62,81 @@ function Admin(props) {
     addPreparedCard,
     uploadToTheFireBase,
     goodsFromFB,
-    removePreparedCard,
-
+    removePreparedCard
   } = useContext(AppContext);
   return (
     <div className={classes.root}>
-      <Button onClick={addPreparedCard}>add Card</Button>
-      <Button onClick={uploadToTheFireBase}>uploadToTheFireBase</Button>
-      <TextField value={title} onChange={text => setTitle(text.target.value)} />
-      <TextField
-        value={content}
-        onChange={text => setContent(text.target.value)}
-      />
-      <Button variant="contained" component="label">
-        Upload File
-        <input type="file" style={{ display: "none" }} onChange={onChange} />
-      </Button>
-      <Typography variant="h1">Preview</Typography>
-      <Card title={title} content={content} image={imageValue} />
+      <Grid item xs={12} sm container spacing={2}>
+        <Grid item xs={6} container direction="column" spacing={2} className={classes.block}>
+          <Button
+            className={classes.button}
+            startIcon={<AddShoppingCartIcon />}
+            variant="contained"
+            color="primary"
+            onClick={addPreparedCard}
+          >
+            Добавить карточку
+          </Button>
+          <TextField
+            label="Поле 1"
+            className={classes.field}
+            value={title}
+            onChange={text => setTitle(text.target.value)}
+          />
+          <TextField
+            label="Поле 2"
+            className={classes.field}
+            value={content}
+            onChange={text => setContent(text.target.value)}
+          />
+          <Button
+            className={classes.button}
+            variant="contained"
+            component="label"
+            startIcon={<CloudUploadIcon />}
+          >
+            Загрузить картинку
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={onChange}
+            />
+          </Button>
+        </Grid>
+        <Grid item xs={6} container direction="column" spacing={2} className={classes.block}>
+          <Typography variant="h5">Предпросмотр</Typography>
+          <Card title={title} content={content} image={imageValue} />
+        </Grid>
+      </Grid>
+        <Grid item xs={12} style={{textAlign: 'center'}} >
+            <Button
+                className={classes.button}
+                startIcon={<FireplaceIcon />}
+                variant="contained"
+                color="primary"
+                onClick={uploadToTheFireBase}
+            >
+                Загрузить все данные
+            </Button>
+        </Grid>
       <div>
-        {goodsFromFB !== null ? goodsFromFB.map((product, index) => (
-
-            <div key={index}>
+        {goodsFromFB !== null
+          ? goodsFromFB.map((product, index) => (
+              <div key={index}>
                 <p>test</p>
 
                 <Card
-              title={product.title}
-              content={product.content}
-              image={product.image}
-              deleteCard={() => removePreparedCard(index)}
-            />
-          </div>
-        )): []}
+                  title={product.title}
+                  content={product.content}
+                  image={product.image}
+                  deleteCard={() => {
+                    removePreparedCard(product.id);
+                    console.log(product.id);
+                  }}
+                />
+              </div>
+            ))
+          : []}
       </div>
       {data.map((tile, index) => (
         <div key={tile.id}>
@@ -81,7 +144,7 @@ function Admin(props) {
             title={tile.title}
             content={tile.content}
             image={tile.image}
-            deleteCard={() => removePreparedCard(index)}
+            deleteCard={() => removePreparedCard(tile.id)}
           />
         </div>
       ))}

@@ -86,7 +86,7 @@ const AppProvider = ({ children }) => {
       .database()
       .ref("products")
       .child("item")
-      .set(listOfProducts);
+      .set(listOfProducts).then(setListOfProducts(""));
   };
 
   const getDataFromFireBase = async () => {
@@ -96,7 +96,7 @@ const AppProvider = ({ children }) => {
         .child("item")
         .once("value")
         .then(function(snapshot) {
-          setGoodsFromFb(snapshot.val());
+          setGoodsFromFb(Object.values(snapshot.val()));
         });
   };
 
@@ -107,12 +107,11 @@ const AppProvider = ({ children }) => {
     } else alert("Заполните все поля");
   };
 
-  const removeProductFromFirebase = (index ) => {
+  const removeProductFromFirebase = (id) => {
     firebase
       .database()
-      .ref("products")
-      .child("item")
-      .child(index)
+      .ref("products/item")
+      .child(id)
       .remove();
   };
   const removePreparedCard = (id) => {

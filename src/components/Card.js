@@ -42,7 +42,6 @@ export default function Card({ title, content, deleteCard, image, trash = true }
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
-                alt="complex"
                 src={image}
                 alt={image}
               />
