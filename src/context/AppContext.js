@@ -149,13 +149,13 @@ const AppProvider = ({ children }) => {
   };
   useEffect(() => {
     getDataFromFireBase();
-  }, []);
+  }, [goodsFromFB]);
 
   useEffect(() => {
     return () => setImageValue("");
   }, []);
   useEffect(() => {
-  }, [goodsFromFB, cardList]);
+  }, [cardList]);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);

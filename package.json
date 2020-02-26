@@ -17,11 +17,13 @@
     "react-grid-gallery": "^0.5.5",
     "react-image-picker": "^1.1.1",
     "react-images-upload": "^1.2.7",
+    "react-paypal-button-v2": "^2.6.1",
+    "react-router": "latest",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-toastify": "^5.5.0",
     "uuid": "^3.4.0",
-    "react-router": "latest"
+    "prop-types": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

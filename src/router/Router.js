@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Home from "../screen/Home";
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Catalog from "../screen/Catalog";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -19,7 +19,8 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
-import ListIcon from '@material-ui/icons/List';
+import ListIcon from "@material-ui/icons/List";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +69,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#f1f1f1",
     minWidth: 150,
     padding: 10
-  }
+  },
+  icon: {width: 50, height: 50}
 }));
 function RouterComponent(props) {
   const classes = useStyles();
@@ -106,20 +108,27 @@ function RouterComponent(props) {
                 >
                   <MenuItem onClick={handleClose}>
                     <Link to="/">
-                      <HomeIcon />
+                      <HomeIcon  className={classes.icon}/>
+                    </Link>
+                  </MenuItem>{" "}
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/admin">
+                      <SettingsIcon  className={classes.icon}/>
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleClose}>
                     <Link to="/catalog">
                       {" "}
-                      <ListIcon />
+                      <ListIcon className={classes.icon} />
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleClose}>
                     {!!userImage ? (
                       <ExitToAppIcon onClick={signOut} />
                     ) : (
-                      <Link to="/signIn"><LockOpenIcon /></Link>
+                      <Link to="/signIn">
+                        <LockOpenIcon  className={classes.icon}/>
+                      </Link>
                     )}
                   </MenuItem>
                 </Menu>

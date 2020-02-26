@@ -180,7 +180,7 @@ function Admin(props) {
         {goodsFromFB !== null
           ? goodsFromFB.map((product, index) => (
               <div key={index}>
-                <p>test</p>
+                <Typography>загружено в базу данных</Typography>
                 <Card
                   title={product.title}
                   content={product.content}
