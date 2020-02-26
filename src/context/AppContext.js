@@ -1,8 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
 import firebase from "../firebase/index";
+import {  toast } from 'react-toastify';
 
 const AppContext = React.createContext();
-
+const notify = (str, id) => toast(str, {containerId: id});
 const cardReducer = (state, action) => {
   switch (action.type) {
     case "delete_card":
@@ -14,7 +15,8 @@ const cardReducer = (state, action) => {
           id: Math.floor(Math.random() * 9999),
           title: action.payload.title,
           content: action.payload.content,
-          image: action.payload.image
+          image: action.payload.image,
+          description: action.payload.description
         }
       ];
     default:
@@ -26,13 +28,13 @@ const AppProvider = ({ children }) => {
   const [cardList, dispatch] = useReducer(cardReducer, []);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
   const [imageValue, setImageValue] = useState("");
   const [goodsFromFB, setGoodsFromFb] = useState([]);
   const [listOfProducts, setListOfProducts] = useState("");
   const addCard = (title, content, image) => {
     dispatch({ type: "add_card", payload: { title, content, image } });
   };
-
   const deleteCard = id => {
     dispatch({ type: "delete_card", payload: id });
   };
@@ -54,7 +56,7 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  const makeListOfProducts = async (title, content, image) => {
+  const makeListOfProducts = async (title, content, image, description) => {
     if (goodsFromFB === null) {
       setListOfProducts(prevState => [
         ...prevState,
@@ -62,7 +64,8 @@ const AppProvider = ({ children }) => {
           id: Math.floor(Math.random() * 9999),
           title,
           content,
-          image
+          image,
+          description
         }
       ]);
     } else {
@@ -73,7 +76,8 @@ const AppProvider = ({ children }) => {
           id: Math.floor(Math.random() * 9999),
           title,
           content,
-          image
+          image,
+          description
         }
       ]);
     }
@@ -87,7 +91,7 @@ const AppProvider = ({ children }) => {
         .update(listOfProducts)
         .then(setListOfProducts(""));
     } else {
-      alert("Добавьте карту");
+      notify("Добавьте карту", "addCard");
     }
   };
 
@@ -107,10 +111,10 @@ const AppProvider = ({ children }) => {
   };
 
   const addPreparedCard = () => {
-    if ((title, content, imageValue)) {
-      addCard(title, content, imageValue);
-      makeListOfProducts(title, content, imageValue);
-    } else alert("Заполните все поля");
+    if ((title, content, imageValue, description)) {
+      addCard(title, content, imageValue, description);
+      makeListOfProducts(title, content, imageValue, description);
+    } else notify("Заполните все поля", "fillAllFields");
   };
 
   const removeProductFromFirebase = async id => {
@@ -152,7 +156,9 @@ const AppProvider = ({ children }) => {
         title,
         setTitle,
         content,
-        setContent
+        setContent,
+        description,
+        setDescription,
       }}
     >
       {children}

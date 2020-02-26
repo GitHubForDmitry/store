@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function CardItem({
   title,
   content,
+  description,
   deleteCard,
   image,
   trash = true
@@ -58,14 +59,18 @@ export default function CardItem({
   return (
     <Card className={classes.root}>
       <CardHeader
+          className={classes.cardHeader}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
             3+
           </Avatar>
         }
-
         title={title}
-        subheader={new Date().toLocaleString("ru", { year: 'numeric', month: 'long', day: 'numeric' })}
+        subheader={new Date().toLocaleString("ru", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}
       />
       {image && (
         <CardMedia
@@ -102,10 +107,7 @@ export default function CardItem({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
+          <Typography paragraph>{description}</Typography>
         </CardContent>
       </Collapse>
     </Card>

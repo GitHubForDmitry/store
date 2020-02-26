@@ -9,6 +9,8 @@ import FireplaceIcon from "@material-ui/icons/Fireplace";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Card from "../components/Card";
 import Grid from "@material-ui/core/Grid";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,10 +22,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     padding: 5
   },
-    block: {
-        justifyContent: "center",
-        alignItems: "center"
-    },
+  block: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
   gridList: {
     flexWrap: "nowrap",
     transform: "translateZ(0)"
@@ -65,6 +67,8 @@ function Admin(props) {
     setTitle,
     content,
     setContent,
+    description,
+    setDescription,
     onChange,
     imageValue,
     addPreparedCard,
@@ -74,8 +78,39 @@ function Admin(props) {
   } = useContext(AppContext);
   return (
     <div className={classes.root}>
+      <ToastContainer
+        containerId={"addCard"}
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
+      <ToastContainer
+        containerId={"fillAllFields"}
+        position="top-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
       <Grid item xs={12} sm container spacing={2}>
-        <Grid item xs={6} container direction="column" spacing={2} className={classes.block}>
+        <Grid
+          item
+          xs={6}
+          container
+          direction="column"
+          spacing={2}
+          className={classes.block}
+        >
           <Button
             className={classes.button}
             startIcon={<AddShoppingCartIcon />}
@@ -85,6 +120,7 @@ function Admin(props) {
           >
             Добавить карточку
           </Button>
+
           <TextField
             label="Поле 1"
             className={classes.field}
@@ -96,6 +132,12 @@ function Admin(props) {
             className={classes.field}
             value={content}
             onChange={text => setContent(text.target.value)}
+          />
+          <TextField
+            label="Поле 3"
+            className={classes.field}
+            value={description}
+            onChange={text => setDescription(text.target.value)}
           />
           <Button
             className={classes.button}
@@ -111,23 +153,30 @@ function Admin(props) {
             />
           </Button>
         </Grid>
-        <Grid item xs={6} container direction="column" spacing={2} className={classes.block}>
+        <Grid
+          item
+          xs={6}
+          container
+          direction="column"
+          spacing={2}
+          className={classes.block}
+        >
           <Typography variant="h5">Предпросмотр</Typography>
-          <Card title={title} content={content} image={imageValue} />
+          <Card title={title} content={content} image={imageValue} description={description} />
         </Grid>
       </Grid>
-        <Grid item xs={12} style={{textAlign: 'center'}} >
-            <Button
-                className={classes.button}
-                startIcon={<FireplaceIcon />}
-                variant="contained"
-                color="primary"
-                onClick={uploadToTheFireBase}
-            >
-                Загрузить все данные
-            </Button>
-        </Grid>
-        <Grid item xs={12} container spacing={2} className={classes.wrap}>
+      <Grid item xs={12} style={{ textAlign: "center" }}>
+        <Button
+          className={classes.button}
+          startIcon={<FireplaceIcon />}
+          variant="contained"
+          color="primary"
+          onClick={uploadToTheFireBase}
+        >
+          Загрузить все данные
+        </Button>
+      </Grid>
+      <Grid item xs={12} container spacing={2} className={classes.wrap}>
         {goodsFromFB !== null
           ? goodsFromFB.map((product, index) => (
               <div key={index}>
@@ -135,27 +184,27 @@ function Admin(props) {
                 <Card
                   title={product.title}
                   content={product.content}
+                  description={product.description}
                   image={product.image}
                   deleteCard={() => {
                     removePreparedCard(product.id);
-                    console.log(product.id);
                   }}
                 />
               </div>
             ))
           : []}
-      {data.map((tile, index) => (
-        <div key={tile.id}>
-          <Card
-            title={tile.title}
-            content={tile.content}
-            image={tile.image}
-            deleteCard={() => removePreparedCard(tile.id)}
-          />
-        </div>
-      ))}
-        </Grid>
-
+        {data.map((tile, index) => (
+          <div key={tile.id}>
+            <Card
+              title={tile.title}
+              content={tile.content}
+              description={tile.description}
+              image={tile.image}
+              deleteCard={() => removePreparedCard(tile.id)}
+            />
+          </div>
+        ))}
+      </Grid>
     </div>
   );
 }
