@@ -2,22 +2,30 @@ import React, {useContext} from 'react';
 import Card from "../components/Card";
 import {GridList} from "@material-ui/core";
 import AppContext from "../context/AppContext";
+import PropTypes from 'prop-types';
 
-function Catalog(props) {
+const Catalog = () => {
     const {goodsFromFB} = useContext(AppContext);
     return (
-        <GridList>
+        <GridList style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
             {goodsFromFB !== null && goodsFromFB.map((product) =>
                 <Card
                     key={product.id}
                     title={product.title}
                     content={product.content}
                     image={product.image}
+                    description={product.description}
                     trash={false}
                 />
             )}
         </GridList>
     );
 }
-
+Catalog.propTypes = {
+    title: PropTypes.string,
+    content: PropTypes.string,
+    image: PropTypes.string,
+    description: PropTypes.string,
+    trash: PropTypes.bool
+};
 export default Catalog;

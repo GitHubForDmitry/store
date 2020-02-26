@@ -13,13 +13,13 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: 300,
-    padding: 10
+    padding: 10,
+    margin: 10
   },
   media: {
     height: 0,
@@ -76,7 +76,7 @@ export default function CardItem({
         <CardMedia
           className={classes.media}
           image={image}
-          title="Paella dish"
+          title="card"
         />
       )}
 

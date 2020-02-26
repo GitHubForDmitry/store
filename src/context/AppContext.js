@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
 import firebase from "../firebase/index";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const AppContext = React.createContext();
-const notify = (str, id) => toast(str, {containerId: id});
+const notify = (str, id) => toast(str, { containerId: id });
 const cardReducer = (state, action) => {
   switch (action.type) {
     case "delete_card":
@@ -32,8 +32,15 @@ const AppProvider = ({ children }) => {
   const [imageValue, setImageValue] = useState("");
   const [goodsFromFB, setGoodsFromFb] = useState([]);
   const [listOfProducts, setListOfProducts] = useState("");
-  const addCard = (title, content, image) => {
-    dispatch({ type: "add_card", payload: { title, content, image } });
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userImage, setUserImage] = useState("");
+  const [displayName, setDisplayName] = useState("");
+
+  const addCard = (title, content, image, description) => {
+    dispatch({
+      type: "add_card",
+      payload: { title, content, image, description }
+    });
   };
   const deleteCard = id => {
     dispatch({ type: "delete_card", payload: id });
@@ -83,6 +90,7 @@ const AppProvider = ({ children }) => {
     }
   };
   const uploadToTheFireBase = async () => {
+    console.log(listOfProducts);
     if (listOfProducts) {
       await firebase
         .database()
@@ -114,7 +122,7 @@ const AppProvider = ({ children }) => {
     if ((title, content, imageValue, description)) {
       addCard(title, content, imageValue, description);
       makeListOfProducts(title, content, imageValue, description);
-    } else notify("Заполните все поля", "fillAllFields");
+    } else notify("Заполните все поля и добавьте картинку", "fillAllFields");
   };
 
   const removeProductFromFirebase = async id => {
@@ -126,6 +134,14 @@ const AppProvider = ({ children }) => {
       .set(removeArr)
       .then(setGoodsFromFb(removeArr));
   };
+  const signOut = async () => {
+    await setUserImage("");
+    await setDisplayName("");
+    await firebase
+      .auth()
+      .signOut()
+      .then((window.location.href = "/signIn"));
+  };
 
   const removePreparedCard = id => {
     deleteCard(id);
@@ -134,12 +150,21 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     getDataFromFireBase();
   }, []);
+
   useEffect(() => {
     return () => setImageValue("");
   }, []);
   useEffect(() => {
-    console.log("goodsFromFB changed");
   }, [goodsFromFB, cardList]);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      setIsSignedIn(!!user);
+      if (user) {
+        setUserImage(firebase.auth().currentUser.photoURL);
+        setDisplayName(firebase.auth().currentUser.displayName);
+      }
+    });
+  });
 
   return (
     <AppContext.Provider
@@ -151,6 +176,7 @@ const AppProvider = ({ children }) => {
         uploadToTheFireBase,
         addPreparedCard,
         removeProductFromFirebase,
+        signOut,
         imageValue,
         goodsFromFB,
         title,
@@ -159,6 +185,9 @@ const AppProvider = ({ children }) => {
         setContent,
         description,
         setDescription,
+        isSignedIn,
+        userImage,
+        displayName
       }}
     >
       {children}

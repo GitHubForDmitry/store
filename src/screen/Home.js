@@ -66,8 +66,8 @@ function Home(props) {
     return (
         <Grid xl={12}>
             <Container>
-                <Typography style={{color: "#fff"}} variant="h1">
-                    Детская одежда
+                <Typography style={{color: "#000"}} variant="h4">
+                    React js + firebase(auth google + facebook + real time database)
                 </Typography>
                 <Gallery images={IMAGES}/>
             </Container>
