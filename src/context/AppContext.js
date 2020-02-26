@@ -29,7 +29,6 @@ const AppProvider = ({ children }) => {
   const [imageValue, setImageValue] = useState("");
   const [goodsFromFB, setGoodsFromFb] = useState([]);
   const [listOfProducts, setListOfProducts] = useState("");
-  console.log(goodsFromFB);
   const addCard = (title, content, image) => {
     dispatch({ type: "add_card", payload: { title, content, image } });
   };
@@ -40,7 +39,6 @@ const AppProvider = ({ children }) => {
 
   const onChange = e => {
     e.preventDefault();
-
     try {
       let reader = new FileReader();
       let file = e.target.files[0];
@@ -52,15 +50,13 @@ const AppProvider = ({ children }) => {
     } catch (e) {
       console.log(e.message);
     } finally {
-      setImageValue('')
+      setImageValue("");
     }
   };
-  useEffect(() => {
-    return () => setImageValue('')
-  }, [])
+
   const makeListOfProducts = async (title, content, image) => {
-    if(goodsFromFB === null) {
-      setListOfProducts(   prevState => [
+    if (goodsFromFB === null) {
+      setListOfProducts(prevState => [
         ...prevState,
         {
           id: Math.floor(Math.random() * 9999),
@@ -68,36 +64,46 @@ const AppProvider = ({ children }) => {
           content,
           image
         }
-      ])
+      ]);
     } else {
-    setListOfProducts(prevState => [
-      ...prevState,
-      ...goodsFromFB,
-      {
-        id: Math.floor(Math.random() * 9999),
-        title,
-        content,
-        image
-      }
-    ]);
-  }};
+      setListOfProducts([
+        ...goodsFromFB,
+        ...cardList,
+        {
+          id: Math.floor(Math.random() * 9999),
+          title,
+          content,
+          image
+        }
+      ]);
+    }
+  };
   const uploadToTheFireBase = async () => {
-    await firebase
-      .database()
-      .ref("products")
-      .child("item")
-      .set(listOfProducts).then(setListOfProducts(""));
+    if (listOfProducts) {
+      await firebase
+        .database()
+        .ref("products")
+        .child("item")
+        .update(listOfProducts)
+        .then(setListOfProducts(""));
+    } else {
+      alert("Добавьте карту");
+    }
   };
 
   const getDataFromFireBase = async () => {
+    if (goodsFromFB !== null) {
       await firebase
         .database()
         .ref("products")
         .child("item")
         .once("value")
         .then(function(snapshot) {
-          setGoodsFromFb(Object.values(snapshot.val()));
+          if (snapshot.val() !== null) {
+            setGoodsFromFb(Object.values(snapshot.val()));
+          }
         });
+    }
   };
 
   const addPreparedCard = () => {
@@ -107,20 +113,29 @@ const AppProvider = ({ children }) => {
     } else alert("Заполните все поля");
   };
 
-  const removeProductFromFirebase = (id) => {
-    firebase
+  const removeProductFromFirebase = async id => {
+    const removeArr = goodsFromFB.filter(item => item.id !== id);
+    await firebase
       .database()
-      .ref("products/item")
-      .child(id)
-      .remove();
+      .ref("products")
+      .child("item")
+      .set(removeArr)
+      .then(setGoodsFromFb(removeArr));
   };
-  const removePreparedCard = (id) => {
+
+  const removePreparedCard = id => {
     deleteCard(id);
-    removeProductFromFirebase(id)
-  }
+    removeProductFromFirebase(id);
+  };
   useEffect(() => {
     getDataFromFireBase();
-  }, [listOfProducts]);
+  }, []);
+  useEffect(() => {
+    return () => setImageValue("");
+  }, []);
+  useEffect(() => {
+    console.log("goodsFromFB changed");
+  }, [goodsFromFB, cardList]);
 
   return (
     <AppContext.Provider

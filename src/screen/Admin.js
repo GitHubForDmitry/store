@@ -45,6 +45,14 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(1),
       width: 200
     }
+  },
+  wrap: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    backgroundColor: theme.palette.background.paper,
+    padding: 5,
+    marginVertical: 20
   }
 }));
 
@@ -119,12 +127,11 @@ function Admin(props) {
                 Загрузить все данные
             </Button>
         </Grid>
-      <div>
+        <Grid item xs={12} container spacing={2} className={classes.wrap}>
         {goodsFromFB !== null
           ? goodsFromFB.map((product, index) => (
               <div key={index}>
                 <p>test</p>
-
                 <Card
                   title={product.title}
                   content={product.content}
@@ -137,7 +144,6 @@ function Admin(props) {
               </div>
             ))
           : []}
-      </div>
       {data.map((tile, index) => (
         <div key={tile.id}>
           <Card
@@ -148,6 +154,8 @@ function Admin(props) {
           />
         </div>
       ))}
+        </Grid>
+
     </div>
   );
 }

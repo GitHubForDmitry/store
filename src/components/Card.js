@@ -1,77 +1,113 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import clsx from "clsx";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import { red } from "@material-ui/core/colors";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    width: 300,
+    padding: 10
   },
-  paper: {
-    padding: theme.spacing(2),
-    margin: "5px auto",
-    maxWidth: 300,
-    flexDirection: "column"
+  media: {
+    height: 0,
+    paddingTop: "66%", // 16:9,
+    width: 200,
+    margin: "0 auto",
+    paddingHorizontal: 20
   },
-  imageWrapper: {
-    display: "flex",
-    justifyContent: "center"
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest
+    })
   },
-  image: {
-    width: 128,
-    height: 128
+  expandOpen: {
+    transform: "rotate(180deg)"
   },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%"
+  avatar: {
+    backgroundColor: red[500]
   }
 }));
 
-export default function Card({ title, content, deleteCard, image, trash = true }) {
+export default function CardItem({
+  title,
+  content,
+  deleteCard,
+  image,
+  trash = true
+}) {
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} className={classes.imageWrapper}>
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.img}
-                src={image}
-                alt={image}
-              />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  {title}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {content}
-                </Typography>
-              </Grid>
-              <Grid item>
-                {trash && (
-                  <ButtonBase
-                    onClick={deleteCard}
-                    variant="body2"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <DeleteOutlineIcon />
-                  </ButtonBase>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            3+
+          </Avatar>
+        }
+
+        title={title}
+        subheader={new Date().toLocaleString("ru", { year: 'numeric', month: 'long', day: 'numeric' })}
+      />
+      {image && (
+        <CardMedia
+          className={classes.media}
+          image={image}
+          title="Paella dish"
+        />
+      )}
+
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {content}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        {trash && (
+          <IconButton aria-label="share" onClick={deleteCard}>
+            <DeleteOutlineIcon />
+          </IconButton>
+        )}
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
+            set aside for 10 minutes.
+          </Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 }
