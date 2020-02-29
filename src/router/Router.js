@@ -25,7 +25,6 @@ import SettingsIcon from "@material-ui/icons/Settings";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    width: "100%",
     marginTop: 0,
     zIndex: 1,
     height: "100vh",
@@ -36,22 +35,15 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     overflowX: "hidden"
   },
-  subRoot: {
-    flexGrow: 1,
-    width: "100%",
-    marginTop: 0,
-    zIndex: 2,
-    height: "100vh",
-    backgroundColor: `rgba(255,255,255, 0.3)`,
-    objectFit: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover"
-  },
+
   paper: {
+    position: "absolute",
+    top: 10,
+    left: 10,
     textAlign: "center",
-    color: theme.palette.text.secondary,
-    backgroundColor: "#f1f1f1"
+    color: theme.palette.text.primary,
+    backgroundColor: "#f1f1f1",
+    zIndex: 20
   },
   media: {
     width: 50,

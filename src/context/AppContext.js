@@ -154,8 +154,7 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     return () => setImageValue("");
   }, []);
-  useEffect(() => {
-  }, [cardList]);
+  useEffect(() => {}, [cardList]);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       setIsSignedIn(!!user);
@@ -165,7 +164,7 @@ const AppProvider = ({ children }) => {
       }
     });
   });
-
+  useEffect(() => {}, [userImage]);
   return (
     <AppContext.Provider
       value={{

@@ -1,79 +1,47 @@
-import React from 'react';
-import {Container, Grid, Typography} from "@material-ui/core";
-import Gallery from 'react-grid-gallery';
+import React from "react";
+import { Container, Grid, Typography } from "@material-ui/core";
+import Image from "../assets/images/sportPattern.svg";
+import Slider from "react-slick";
+import NavBar from "../components/NavBar";
 
-const IMAGES =
-    [{
-        src: "https://c5.staticflickr.com/9/8768/28941110956_b05ab588c1_b.jpg",
-        thumbnail: "https://c5.staticflickr.com/9/8768/28941110956_b05ab588c1_n.jpg",
-        thumbnailWidth: 240,
-        thumbnailHeight: 320,
-        caption: "8H (gratisography.com)"
-    },
-        {
-            src: "https://c3.staticflickr.com/9/8583/28354353794_9f2d08d8c0_b.jpg",
-            thumbnail: "https://c3.staticflickr.com/9/8583/28354353794_9f2d08d8c0_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 190,
-            caption: "286H (gratisography.com)"
-        },
-        {
-            src: "https://c7.staticflickr.com/9/8569/28941134686_d57273d933_b.jpg",
-            thumbnail: "https://c7.staticflickr.com/9/8569/28941134686_d57273d933_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 148,
-            caption: "315H (gratisography.com)"
-        },
-        {
-            src: "https://c6.staticflickr.com/9/8342/28897193381_800db6419e_b.jpg",
-            thumbnail: "https://c6.staticflickr.com/9/8342/28897193381_800db6419e_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 213,
-            isSelected: true,
-            caption: "201H (gratisography.com)"
-        },
-        {
-            src: "https://c2.staticflickr.com/9/8239/28897202241_1497bec71a_b.jpg",
-            thumbnail: "https://c2.staticflickr.com/9/8239/28897202241_1497bec71a_n.jpg",
-            thumbnailWidth: 248,
-            thumbnailHeight: 320,
-            caption: "Big Ben (Tom Eversley - isorepublic.com)"
-        },
-        {
-            src: "https://c1.staticflickr.com/9/8785/28687743710_870813dfde_h.jpg",
-            thumbnail: "https://c1.staticflickr.com/9/8785/28687743710_3580fcb5f0_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 113,
-            isSelected: true,
-            caption: "Red Zone - Paris (Tom Eversley - isorepublic.com)"
-        },
-        {
-            src: "https://c6.staticflickr.com/9/8520/28357073053_cafcb3da6f_b.jpg",
-            thumbnail: "https://c6.staticflickr.com/9/8520/28357073053_cafcb3da6f_n.jpg",
-            thumbnailWidth: 313,
-            thumbnailHeight: 320,
-            caption: "Wood Glass (Tom Eversley - isorepublic.com)"
-        },
-        {
-            src: "https://c8.staticflickr.com/9/8104/28973555735_ae7c208970_b.jpg",
-            thumbnail: "https://c8.staticflickr.com/9/8104/28973555735_ae7c208970_n.jpg",
-            thumbnailWidth: 320,
-            thumbnailHeight: 213,
-            isSelected: true,
-            caption: "Flower Interior Macro (Tom Eversley - isorepublic.com)"
-        }]
+const styles = {
+  root: {
+    flexGrow: 1,
+    width: "100vw",
+    marginTop: 0,
+    zIndex: 1,
+    height: "100vh",
+    overflow: "hidden",
+    backgroundImage: `url(${Image})`,
+    objectFit: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "repeat",
+    backgroundSize: "cover"
+  },
+  subRoot: {
+    flexGrow: 1,
+    width: "100%",
+    marginTop: 0,
+    zIndex: 2,
+    height: "100vh",
+    backgroundColor: `rgba(255,255,255, 0.6)`,
+    objectFit: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover"
+  }
+};
 function Home(props) {
-    return (
-        <Grid xl={12}>
-            <Container>
-                <Typography style={{color: "#000"}} variant="h4">
-                    React js + firebase(auth google + facebook + real time database)
-                </Typography>
-                <Gallery images={IMAGES}/>
-            </Container>
-
-        </Grid>
-    );
+  return (
+    <Grid xl={12} style={styles.root}>
+      <Grid xl={12} style={styles.subRoot}>
+        <NavBar/>
+        <Container>
+          <h1>hello</h1>
+        </Container>
+      </Grid>
+    </Grid>
+  );
 }
 
 export default Home;
