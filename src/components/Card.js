@@ -14,7 +14,6 @@ import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { PayPal } from "./PayPal";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -86,7 +85,6 @@ export default function CardItem({
           {content}
         </Typography>
       </CardContent>
-        <PayPal />
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

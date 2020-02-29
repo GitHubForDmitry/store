@@ -165,6 +165,29 @@ const AppProvider = ({ children }) => {
     });
   });
   useEffect(() => {}, [userImage]);
+
+  const [state, setState] = useState({
+    checkedA: true,
+    checkedB: true,
+  });
+  const [filtered, setFiltered] = useState([]);
+  const handleChange = name => event => {
+    setState({ ...state, [name]: event.target.checked });
+    if(event.target.checked) {
+      setFiltered( filterSize(name, goodsFromFB));
+    }
+  };
+  function filterSize(value, arr) {
+    switch (value) {
+      case 'checkedA':
+        return [...arr].filter((item) => item.title === "1");
+      case 'checkedB':
+        return [...arr].filter((item) => item.content === '2');
+
+      default:
+        return [...arr];
+    }
+  }
   return (
     <AppContext.Provider
       value={{
@@ -176,6 +199,8 @@ const AppProvider = ({ children }) => {
         addPreparedCard,
         removeProductFromFirebase,
         signOut,
+        handleChange,
+        filtered,
         imageValue,
         goodsFromFB,
         title,
@@ -186,7 +211,8 @@ const AppProvider = ({ children }) => {
         setDescription,
         isSignedIn,
         userImage,
-        displayName
+        displayName,
+        state
       }}
     >
       {children}
