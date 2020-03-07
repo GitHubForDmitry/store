@@ -21,9 +21,21 @@ const cardReducer = (state, action) => {
       ];
     default:
       return state;
+    case "filter_card":
+      return filterSize(action.payload, state)
   }
 };
+function filterSize(value, arr) {
+  switch (value) {
+    case 'checkedA':
+      return [...arr].filter((item) => item.title === "1");
+    case 'checkedB':
+      return [...arr].filter((item) => item.content === '2');
 
+    default:
+      return [...arr];
+  }
+}
 const AppProvider = ({ children }) => {
   const [cardList, dispatch] = useReducer(cardReducer, []);
   const [title, setTitle] = useState("");
@@ -45,7 +57,9 @@ const AppProvider = ({ children }) => {
   const deleteCard = id => {
     dispatch({ type: "delete_card", payload: id });
   };
-
+  const filterCard = id => {
+    dispatch({ type: "filter_card", payload: id });
+  };
   const onChange = e => {
     e.preventDefault();
     try {
@@ -125,6 +139,7 @@ const AppProvider = ({ children }) => {
     } else notify("Заполните все поля и добавьте картинку", "fillAllFields");
   };
 
+
   const removeProductFromFirebase = async id => {
     const removeArr = goodsFromFB.filter(item => item.id !== id);
     await firebase
@@ -174,20 +189,10 @@ const AppProvider = ({ children }) => {
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
     if(event.target.checked) {
-      setFiltered( filterSize(name, goodsFromFB));
+      setFiltered( filterCard(name, goodsFromFB));
     }
   };
-  function filterSize(value, arr) {
-    switch (value) {
-      case 'checkedA':
-        return [...arr].filter((item) => item.title === "1");
-      case 'checkedB':
-        return [...arr].filter((item) => item.content === '2');
 
-      default:
-        return [...arr];
-    }
-  }
   return (
     <AppContext.Provider
       value={{
@@ -200,6 +205,7 @@ const AppProvider = ({ children }) => {
         removeProductFromFirebase,
         signOut,
         handleChange,
+        filterCard,
         filtered,
         imageValue,
         goodsFromFB,
