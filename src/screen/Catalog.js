@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import Typography from "@material-ui/core/Typography";
 
 const Catalog = () => {
-    const {filtered} = useContext(AppContext);
+    const {goodsFromFB} = useContext(AppContext);
     return (
         <GridList style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>
-            {filtered !== null ? filtered.map((product) =>
+            {goodsFromFB !== null ? goodsFromFB.map((product) =>
                 <Card
                     key={product.id}
                     title={product.title}

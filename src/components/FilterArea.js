@@ -1,27 +1,27 @@
-import React, {memo, useContext} from 'react';
+import React from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import AppContext from "../context/AppContext";
 
 
+export const FilterArea = () => {
+    const [state, setState] = React.useState({
+        checkedA: true,
+        checkedB: true,
+    });
 
-function CheckboxLabels() {
+    const handleChange = name => event => {
+        setState({...state, [name]: event.target.checked });
+    };
 
-    const { handleChange, state } = useContext(AppContext);
-
+    console.log(state);
     return (
         <FormGroup row>
             <FormControlLabel
                 control={
-                    <Checkbox
-                        checked={state.checkedA}
-                        onChange={handleChange('checkedA')}
-                        value="checkedA"
-                        color="primary"
-                    />
+                    <Checkbox checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" />
                 }
-                label="SizeA"
+                label="Secondary"
             />
             <FormControlLabel
                 control={
@@ -32,10 +32,8 @@ function CheckboxLabels() {
                         color="primary"
                     />
                 }
-                label="SizeB"
+                label="Primary"
             />
         </FormGroup>
     );
 }
-
-export default memo(CheckboxLabels)

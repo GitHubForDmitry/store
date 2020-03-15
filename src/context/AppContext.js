@@ -110,7 +110,7 @@ const AppProvider = ({ children }) => {
         .database()
         .ref("products")
         .child("item")
-        .update(listOfProducts)
+        .set(listOfProducts)
         .then(setListOfProducts(""));
     } else {
       notify("Добавьте карту", "addCard");
@@ -164,7 +164,7 @@ const AppProvider = ({ children }) => {
   };
   useEffect(() => {
     getDataFromFireBase();
-  }, [goodsFromFB]);
+  }, []);
 
   useEffect(() => {
     return () => setImageValue("");
@@ -181,18 +181,6 @@ const AppProvider = ({ children }) => {
   });
   useEffect(() => {}, [userImage]);
 
-  const [state, setState] = useState({
-    checkedA: true,
-    checkedB: true,
-  });
-  const [filtered, setFiltered] = useState([]);
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-    if(event.target.checked) {
-      setFiltered( filterCard(name, goodsFromFB));
-    }
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -204,9 +192,7 @@ const AppProvider = ({ children }) => {
         addPreparedCard,
         removeProductFromFirebase,
         signOut,
-        handleChange,
         filterCard,
-        filtered,
         imageValue,
         goodsFromFB,
         title,
@@ -218,7 +204,6 @@ const AppProvider = ({ children }) => {
         isSignedIn,
         userImage,
         displayName,
-        state
       }}
     >
       {children}

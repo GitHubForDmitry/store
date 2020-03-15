@@ -3,7 +3,7 @@ import { Container, Grid, Typography } from "@material-ui/core";
 import Image from "../assets/images/sportPattern.svg";
 import NavBar from "../components/NavBar";
 import Catalog from "./Catalog";
-import FilterArea from "../components/FilterArea";
+import { FilterArea } from "../components/FilterArea";
 
 const styles = {
   root: {
