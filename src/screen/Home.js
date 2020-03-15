@@ -1,9 +1,6 @@
 import React from "react";
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import Image from "../assets/images/sportPattern.svg";
-import NavBar from "../components/NavBar";
-import Catalog from "./Catalog";
-import { FilterArea } from "../components/FilterArea";
 
 const styles = {
   root: {
@@ -34,10 +31,8 @@ function Home(props) {
   return (
     <Grid xl={12} style={styles.root}>
       <Grid xl={12} style={styles.subRoot}>
-        <NavBar/>
         <Container>
-          <FilterArea />
-          <Catalog />
+
         </Container>
       </Grid>
     </Grid>

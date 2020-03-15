@@ -21,21 +21,9 @@ const cardReducer = (state, action) => {
       ];
     default:
       return state;
-    case "filter_card":
-      return filterSize(action.payload, state)
   }
 };
-function filterSize(value, arr) {
-  switch (value) {
-    case 'checkedA':
-      return [...arr].filter((item) => item.title === "1");
-    case 'checkedB':
-      return [...arr].filter((item) => item.content === '2');
 
-    default:
-      return [...arr];
-  }
-}
 const AppProvider = ({ children }) => {
   const [cardList, dispatch] = useReducer(cardReducer, []);
   const [title, setTitle] = useState("");
@@ -57,9 +45,7 @@ const AppProvider = ({ children }) => {
   const deleteCard = id => {
     dispatch({ type: "delete_card", payload: id });
   };
-  const filterCard = id => {
-    dispatch({ type: "filter_card", payload: id });
-  };
+
   const onChange = e => {
     e.preventDefault();
     try {
@@ -192,7 +178,6 @@ const AppProvider = ({ children }) => {
         addPreparedCard,
         removeProductFromFirebase,
         signOut,
-        filterCard,
         imageValue,
         goodsFromFB,
         title,
